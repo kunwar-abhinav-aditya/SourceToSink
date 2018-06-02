@@ -1,0 +1,55 @@
+In this project, we read the records from the endpoints /source/a and /source/b,
+and push the required information to /sink/a
+
+
+Instructions
+------------
+1.	Change the value of the limit variable to the number of requests for which the test is to be run.
+	e.g. if we want to test the program for 5000 JSONs and XMLs each, we set limit = 5000
+
+2.	Run the file SourceToSink.java as a standard java file run
+
+3.	After the run completes, compare the results
+
+
+Assumptions
+------------
+1.	We must start writing data to sink/a but it is not required to complete the task of writing by
+	the time the read from both sources finishes.
+
+2.	It is not possible to do the above as well, since we at least require one complete read of the incoming
+	data from both the sources to be able to determine whether any record in both streams is an orphan or not
+
+Limitations
+------------
+1.	Since the socket timeout happens after 15 seconds, I have currently managed to run the program
+	successfully for a maximum of around 20,000 records. 
+
+Improvements
+-------------
+1.	While writing the orphaned records to the sink, the code could be optimized to take care of as
+	many orphaned records as we want. The first approach I took was to assign the writing task to
+	multiple threads which would take different chunks of the ArrayList and write to the sink
+	concurrently. But the bottleneck is that the server accepts the requests via only one
+	end-point and I guess I was not supposed to alter anything at the server side, else a multi-threaded
+	logic could be implemented on that part to tackle this situation.
+
+2.	One more alternative could be to stream all the requests at once, i.e. without waiting for the
+	result of one http request. This was a bit tricky and though I could not implement it now, I definitely
+	think that should be possible.
+
+
+External JARs
+--------------
+java-json.jar
+commons-codec-1.10.jar
+commons-logging-1.2.jar
+fluent-hc-4.5.5.jar
+httpclient-4.5.5.jar
+httpclient-cache-4.5.5.jar
+httpclient-win-4.5.5.jar
+httpcore-4.4.9.jar
+httpmime-4.5.5.jar
+jna-4.4.0.jar
+jna-platform-4.4.0.jar
+
